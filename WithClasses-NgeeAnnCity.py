@@ -7,7 +7,7 @@ alpha = "ABCDEFGHIJKLMNOPQRST"
 class Map(object):
     def __init__(self):
         self.buildings = []
-        self.currentChoice = 0
+        self.buildingStatus = None
 
     def createMap(self):
         print("", end="    ")
@@ -32,11 +32,17 @@ class Map(object):
                     print("|", end="     ")
             else:
                 for j in range(20):
+
+                    self.buildingStatus = False
+
                     for building in self.buildings:
-                        if (building.column == j and building.row == i):
+                        if ((building.column) == j and building.row == i):
                             print("|  {}  ". format(building.Name), end="")
-                        else:
-                            print("|", end="     ")
+                            self.buildingStatus = True
+
+                    if self.buildingStatus == False:
+                        print("|", end="     ")
+
             print("|")
 
         print("", end="    ")
@@ -46,8 +52,7 @@ class Map(object):
         print("+")
 
     def addBuilding(self, building):
-        self.currentChoice = building
-        self.buildings.append(self.currentChoice)
+        self.buildings.append(building)
 
 
 class Building():
@@ -58,6 +63,8 @@ class Building():
 
 
 def run():
+    map = Map()
+
     while True:
         print("Welcome, mayor of Ngee Ann City")
         print("---------------------------")
@@ -72,7 +79,6 @@ def run():
         choice = input("Your choice? \n")
 
         if choice == "1":
-            map = Map()
             map.createMap()
 
             # set randombuilding1=random.randint(0,4) to get random numbers
@@ -103,6 +109,7 @@ def run():
             building = Building(buildinglist[randombuilding1], row, column)
             map.addBuilding(building)
             map.createMap()
+            continue
 
         if choice == "0":
             break

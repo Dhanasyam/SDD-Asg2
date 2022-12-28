@@ -1,9 +1,16 @@
 import random
 
-buidings = ["R", "I", "C", "O", "*"]
+
+buidingNames = ["R", "I", "C", "O", "*"]
+alpha = "ABCDEFGHIJKLMNOPQRST"
 
 
 def map():
+    print("", end="    ")
+    for j in range(20):
+        print("   {}  ".format(alpha[j]), end="")
+    print()
+
     for i in range(20):
         print("", end="    ")
         for j in range(20):
