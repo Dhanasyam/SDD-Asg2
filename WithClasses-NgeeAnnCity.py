@@ -49,10 +49,19 @@ class Map(object):
         for j in range(20):
             # Display
             print("+-----", end="")
-        print("+")
+        print("+\n")
 
     def addBuilding(self, building):
         self.buildings.append(building)
+
+    def checkPlacement(self, building):
+        for buildiings in self.buildings:
+            if (buildiings.column == building.column) and ((buildiings.row == building.row + 1) or (buildiings.row == buildiings.row - 1)):
+                return True
+            elif (buildiings.row == building.row) and ((buildiings.column == building.column + 1) or (buildiings.column == building.column - 1)):
+                return True
+            else:
+                return False
 
 
 class Building():
@@ -66,8 +75,8 @@ def run():
     map = Map()
 
     while True:
-        print("Welcome, mayor of Ngee Ann City")
-        print("---------------------------")
+        print("\nWelcome, mayor of Ngee Ann City")
+        print("-------------------------------")
         print("1. Start new game")
         print("2. Load saved game")
         print("3. High Scores")
@@ -76,7 +85,7 @@ def run():
 
         # Prompt user to input choice
         # Get choice
-        choice = input("Your choice? \n")
+        choice = input("\nYour choice: ")
 
         if choice == "1":
             map.createMap()
@@ -86,33 +95,52 @@ def run():
             # set randombuilding2=random.randint(0,4) to get random numbers
             randombuilding2 = random.randint(0, 4)
 
-            if(randombuilding1 == randombuilding2):
-                randombuilding2 = random.randint(0, 4)
-
-            column = 0
-            row = 0
-
-            print("1. Builds a {}".format(buildinglist[randombuilding1]))
-            print("2. Builds a {}".format(buildinglist[randombuilding2]))
+            print("1. Build {}".format(buildinglist[randombuilding1]))
+            print("2. Build {}".format(buildinglist[randombuilding2]))
             print()
-            buildingChoice = input("Enter your choice?")
+            buildingChoice = input("Enter your choice: ")
 
             if buildingChoice == "1":
-                Placement = input("Enter your placement")
+                randombuilding = randombuilding1
 
-                for i in range(20):
-                    if Placement[0].upper() == alpha[i]:
-                        column = i
+            elif buildingChoice == "2":
+                randombuilding = randombuilding2
 
-                row = int(Placement[1:])-1
+            elif buildingChoice == "0":
+                print("--------------------------------")
+                continue
 
-            building = Building(buildinglist[randombuilding1], row, column)
-            map.addBuilding(building)
+            else:
+                print("Please enter a valid option :)")
+                continue
+
+            Placement = input("Enter your placement: ")
+            for i in range(20):
+                if Placement[0].upper() == alpha[i]:
+                    column = i
+
+            row = int(Placement[1:])-1
+
+            building = Building(buildinglist[randombuilding], row, column)
+
+            if len(map.buildings) == 0:
+                map.addBuilding(building)
+
+            elif map.checkPlacement(building):
+                map.addBuilding(building)
+
+            else:
+                print("try other place.")
+                continue
+
             map.createMap()
             continue
 
-        if choice == "0":
-            break
+        elif choice == "0":
+            print("\nThank you for playing!")
+            print("--------------------------------")
+
+            exit()
 
 
 if __name__ == "__main__":
