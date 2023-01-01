@@ -71,22 +71,26 @@ class Building():
         self.column = column
 
 
+def MainMenu():
+    print("\nWelcome, mayor of Ngee Ann City")
+    print("-------------------------------")
+    print("1. Start new game")
+    print("2. Load saved game")
+    print("3. High Scores")
+    print()
+    print("0. Exit game")
+
+    # Prompt user to input choice
+    # Get choice
+    choice = input("\nYour choice: ")
+    return choice
+
+
 def run():
     map = Map()
+    choice = MainMenu()
 
     while True:
-        print("\nWelcome, mayor of Ngee Ann City")
-        print("-------------------------------")
-        print("1. Start new game")
-        print("2. Load saved game")
-        print("3. High Scores")
-        print()
-        print("0. Exit game")
-
-        # Prompt user to input choice
-        # Get choice
-        choice = input("\nYour choice: ")
-
         if choice == "1":
             map.createMap()
 
@@ -95,9 +99,14 @@ def run():
             # set randombuilding2=random.randint(0,4) to get random numbers
             randombuilding2 = random.randint(0, 4)
 
+            if randombuilding1 == randombuilding2:
+                randombuilding2 = random.randint(0, 4)
+
             print("1. Build {}".format(buildinglist[randombuilding1]))
             print("2. Build {}".format(buildinglist[randombuilding2]))
             print()
+            print("3. Save game")
+            print("0. Main Menu\n")
             buildingChoice = input("Enter your choice: ")
 
             if buildingChoice == "1":
@@ -108,6 +117,8 @@ def run():
 
             elif buildingChoice == "0":
                 print("--------------------------------")
+                choice = MainMenu()
+                map.buildings = []
                 continue
 
             else:
@@ -115,6 +126,7 @@ def run():
                 continue
 
             Placement = input("Enter your placement: ")
+
             for i in range(20):
                 if Placement[0].upper() == alpha[i]:
                     column = i
@@ -141,6 +153,11 @@ def run():
             print("--------------------------------")
 
             exit()
+
+        else:
+            print("\nInvalid option")
+            choice = MainMenu()
+            continue
 
 
 if __name__ == "__main__":
