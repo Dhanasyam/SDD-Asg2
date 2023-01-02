@@ -54,14 +54,19 @@ class Map(object):
     def addBuilding(self, building):
         self.buildings.append(building)
 
-    def checkPlacement(self, building):
-        for buildiings in self.buildings:
-            if (buildiings.column == building.column) and ((buildiings.row == building.row + 1) or (buildiings.row == buildiings.row - 1)):
-                return True
-            elif (buildiings.row == building.row) and ((buildiings.column == building.column + 1) or (buildiings.column == building.column - 1)):
+    def checkPlacement(self, adjBuilding, building):
+        if (adjBuilding.column == building.column):
+            if (building.row == adjBuilding.row + 1) or (building.row + 1 == adjBuilding.row):
                 return True
             else:
                 return False
+        elif (adjBuilding.row == building.row):
+            if (building.column == adjBuilding.column + 1) or (building.column + 1 == adjBuilding.column):
+                return True
+            else:
+                return False
+        else:
+            return False
 
 
 class Building():
@@ -87,12 +92,12 @@ def MainMenu():
 
 
 def run():
-    map = Map()
+    game = Map()
     choice = MainMenu()
 
     while True:
         if choice == "1":
-            map.createMap()
+            game.createMap()
 
             # set randombuilding1=random.randint(0,4) to get random numbers
             randombuilding1 = random.randint(0, 4)
@@ -118,7 +123,7 @@ def run():
             elif buildingChoice == "0":
                 print("--------------------------------")
                 choice = MainMenu()
-                map.buildings = []
+                game.buildings = []
                 continue
 
             else:
@@ -135,17 +140,24 @@ def run():
 
             building = Building(buildinglist[randombuilding], row, column)
 
-            if len(map.buildings) == 0:
-                map.addBuilding(building)
+            if len(game.buildings) == 0:
+                game.addBuilding(building)
 
-            elif map.checkPlacement(building):
-                map.addBuilding(building)
+            elif len(game.buildings) > 0:
+                for i in game.buildings:
+                    if game.checkPlacement(i, building):
+                        game.addBuilding(building)
+                        break
+
+                    else:
+                        break
+
+                continue
 
             else:
                 print("try other place.")
                 continue
 
-            map.createMap()
             continue
 
         elif choice == "0":
