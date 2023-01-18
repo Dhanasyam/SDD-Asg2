@@ -132,7 +132,7 @@ def run():
                     randombuilding = randombuilding2
 
                 elif buildingChoice == "3":
-                    pickle.dump(game.buildings, open("buildings.dat", "wb"))
+                    pickle.dump(game, open("buildings.dat", "wb"))
                     break
 
                 elif buildingChoice == "0":
@@ -169,10 +169,9 @@ def run():
                 continue
 
         elif choice == "2":
-            game.buildings = pickle.load(open("buildings.dat", "rb"))
-
-            print(game.buildings)
+            game = pickle.load(open("buildings.dat", "rb"))
             choice = "1"
+            print()
             continue
 
         elif choice == "0":
