@@ -96,68 +96,73 @@ def run():
 
     while True:
         if choice == "1":
-            game.createMap()
-
-            # set randombuilding1=random.randint(0,4) to get random numbers
-            randombuilding1 = random.randint(0, 4)
-            # set randombuilding2=random.randint(0,4) to get random numbers
-            randombuilding2 = random.randint(0, 4)
-
-            if randombuilding1 == randombuilding2:
+            TurnNo = 1
+            CoinNo = 16
+            Score = 0
+            while TurnNo <= 400 or CoinNo != 0:
+                game.createMap()
+                # set randombuilding1=random.randint(0,4) to get random numbers
+                randombuilding1 = random.randint(0, 4)
+                # set randombuilding2=random.randint(0,4) to get random numbers
                 randombuilding2 = random.randint(0, 4)
 
-            print("1. Build {}".format(buildinglist[randombuilding1]))
-            print("2. Build {}".format(buildinglist[randombuilding2]))
-            print()
-            print("3. Save game")
-            print("0. Main Menu\n")
-            buildingChoice = input("Enter your choice: ")
+                if randombuilding1 == randombuilding2:
+                    randombuilding2 = random.randint(0, 4)
 
-            if buildingChoice == "1":
-                randombuilding = randombuilding1
+                print("No. of coins:"+ str(CoinNo))
+                print("1. Build {}".format(buildinglist[randombuilding1]))
+                print("2. Build {}".format(buildinglist[randombuilding2]))
+                print()
+                print("3. Save game")
+                print("4. Check Score")
+                print("0. Main Menu\n")
+                buildingChoice = input("Enter your choice: ")
 
-            elif buildingChoice == "2":
-                randombuilding = randombuilding2
+                if buildingChoice == "1":
+                    randombuilding = randombuilding1
 
-            elif buildingChoice == "3":
-                file = open("Load.txt", "a")
-                file.writeline(str(game.buildings))
-                file.writeline(str(game.buildings))
-                file.close()
-                break
+                elif buildingChoice == "2":
+                    randombuilding = randombuilding2
 
-            elif buildingChoice == "0":
-                print("--------------------------------")
-                choice = MainMenu()
-                game.buildings = []
+                elif buildingChoice == "3":
+                    file = open("Load.txt", "a")
+                    file.writeline(str(game.buildings))
+                    file.writeline(str(game.buildings))
+                    file.close()
+                    break
+                    
+                elif buildingChoice == "0":
+                    print("--------------------------------")
+                    choice = MainMenu()
+                    game.buildings = []
+                    continue
+
+                else:
+                    print("Please enter a valid option :)")
+                    continue
+
+                Placement = input("Enter your placement: ")
+
+                for i in range(20):
+                    if Placement[0].upper() == alpha[i]:
+                        column = i
+
+                row = int(Placement[1:])-1
+
+                building = Building(buildinglist[randombuilding], row, column)
+
+                if len(game.buildings) == 0:
+                    game.addBuilding(building)
+
+                elif game.checkPlacement(building):
+                    game.addBuilding(building)
+                    continue
+
+                else:
+                    print("try other place.")
+                    continue
+
                 continue
-
-            else:
-                print("Please enter a valid option :)")
-                continue
-
-            Placement = input("Enter your placement: ")
-
-            for i in range(20):
-                if Placement[0].upper() == alpha[i]:
-                    column = i
-
-            row = int(Placement[1:])-1
-
-            building = Building(buildinglist[randombuilding], row, column)
-
-            if len(game.buildings) == 0:
-                game.addBuilding(building)
-
-            elif game.checkPlacement(building):
-                game.addBuilding(building)
-                continue
-
-            else:
-                print("try other place.")
-                continue
-
-            continue
 
         elif choice == "2":
             file = open("Load.txt", "r")
