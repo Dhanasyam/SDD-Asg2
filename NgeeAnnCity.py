@@ -10,6 +10,9 @@ class Map(object):
         self.buildingStatus = None
         self.score = 0
 
+        self.turn = 0
+        self.coinNo = 16
+
     def createMap(self):
         print("", end="    ")
         for j in range(20):
@@ -55,6 +58,9 @@ class Map(object):
     def addBuilding(self, building):
         self.buildings.append(building)
 
+        self.turn -= 1
+        self.coinNo -= 1
+
     def checkPlacement(self, building):
         for buildings in self.buildings:
             hasAdjbuild = False
@@ -96,10 +102,7 @@ def run():
 
     while True:
         if choice == "1":
-            TurnNo = 1
-            CoinNo = 16
-            Score = 0
-            while TurnNo <= 400 or CoinNo != 0:
+            while game.turn <= 400 or game.coinNo != 0:
                 game.createMap()
                 # set randombuilding1=random.randint(0,4) to get random numbers
                 randombuilding1 = random.randint(0, 4)
@@ -109,7 +112,7 @@ def run():
                 if randombuilding1 == randombuilding2:
                     randombuilding2 = random.randint(0, 4)
 
-                print("No. of coins:"+ str(CoinNo))
+                print("No. of coins:" + str(game.coinNo))
                 print("1. Build {}".format(buildinglist[randombuilding1]))
                 print("2. Build {}".format(buildinglist[randombuilding2]))
                 print()
@@ -130,7 +133,7 @@ def run():
                     file.writeline(str(game.buildings))
                     file.close()
                     break
-                    
+
                 elif buildingChoice == "0":
                     print("--------------------------------")
                     choice = MainMenu()
