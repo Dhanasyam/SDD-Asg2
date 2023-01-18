@@ -177,8 +177,7 @@ def run():
         elif choice == "0":
             print("\nThank you for playing!")
             print("--------------------------------")
-
-            exit()
+            break
 
         else:
             print("\nInvalid option")
