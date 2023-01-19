@@ -67,7 +67,7 @@ class Map(object):
 
     def checkPlacement(self, build):
         hasAdjbuild = False
-        for building in self.buildings: 
+        for building in self.buildings:
             if building == build:
                 hasAdjbuild = False
             elif (building.column == build.column):
@@ -149,7 +149,7 @@ def run():
 
                 Placement = input("Enter your placement: ")
 
-                #validation for placement
+                # validation for placement
                 while len(Placement) != 2 or Placement[0].isalpha == False or Placement[1].isnumeric == False:
                     print("Invalid placement. Please try again.")
                     Placement = input("Enter your placement: ")
@@ -167,21 +167,9 @@ def run():
 
                 elif len(game.buildings) != 0:
                     adjbuilding = game.checkPlacement(build)
-                    while adjbuilding == False:
-                        print("Invalid placement. Please try again.")
-                        Placement = input("Enter your placement: ")
-                        #validation for placement
-                        while len(Placement) != 2 or Placement[0].isalpha == False or Placement[1].isnumeric == False:
-                            print("Invalid placement. Please try again.")
-                            Placement = input("Enter your placement: ")
-                        for i in range(20):
-                            if Placement[0].upper() == alpha[i]:
-                                column = i
-
-                        row = int(Placement[1:])-1
-
-                        build = Building(tobeBuilt, row, column) 
-                        adjbuilding = game.checkPlacement(build) 
+                    if adjbuilding == False:
+                        print("Invalid placement. Please try again. \n")
+                        continue
                     else:
                         game.addBuilding(build)
                     continue
