@@ -1,4 +1,8 @@
 import random
+import pickle
+
+#import os
+# os.system("clear")
 
 buildinglist = ["R", "I", "C", "O", "*"]
 alpha = "ABCDEFGHIJKLMNOPQRST"
@@ -128,10 +132,7 @@ def run():
                     tobeBuilt = randombuilding2
 
                 elif buildingChoice == "3":
-                    file = open("Load.txt", "a")
-                    file.writeline(str(game.buildings))
-                    file.writeline(str(game.buildings))
-                    file.close()
+                    pickle.dump(game, open("buildings.dat", "wb"))
                     break
 
                 elif buildingChoice == "0":
@@ -168,21 +169,15 @@ def run():
                 continue
 
         elif choice == "2":
-            file = open("Load.txt", "r")
-            buildings = file.readlines()
-            print(buildings)
-
-            print(buildings)
-
-            file.close()
+            game = pickle.load(open("buildings.dat", "rb"))
             choice = "1"
+            print()
             continue
 
         elif choice == "0":
             print("\nThank you for playing!")
             print("--------------------------------")
-
-            exit()
+            break
 
         else:
             print("\nInvalid option")
