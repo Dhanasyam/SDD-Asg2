@@ -105,16 +105,16 @@ def run():
             while game.turn <= 400 or game.coinNo != 0:
                 game.createMap()
                 # set randombuilding1=random.randint(0,4) to get random numbers
-                randombuilding1 = random.randint(0, 4)
+                randombuilding1 = buildinglist[random.randint(0, 4)]
                 # set randombuilding2=random.randint(0,4) to get random numbers
-                randombuilding2 = random.randint(0, 4)
+                randombuilding2 = buildinglist[random.randint(0, 4)]
 
-                if randombuilding1 == randombuilding2:
+                while randombuilding1 == randombuilding2:
                     randombuilding2 = random.randint(0, 4)
 
                 print("No. of coins:" + str(game.coinNo))
-                print("1. Build {}".format(buildinglist[randombuilding1]))
-                print("2. Build {}".format(buildinglist[randombuilding2]))
+                print("1. Build {}".format(randombuilding1))
+                print("2. Build {}".format(randombuilding2))
                 print()
                 print("3. Save game")
                 print("4. Check Score")
@@ -122,10 +122,10 @@ def run():
                 buildingChoice = input("Enter your choice: ")
 
                 if buildingChoice == "1":
-                    randombuilding = randombuilding1
+                    tobeBuilt = randombuilding1
 
                 elif buildingChoice == "2":
-                    randombuilding = randombuilding2
+                    tobeBuilt = randombuilding2
 
                 elif buildingChoice == "3":
                     file = open("Load.txt", "a")
@@ -152,7 +152,7 @@ def run():
 
                 row = int(Placement[1:])-1
 
-                building = Building(buildinglist[randombuilding], row, column)
+                building = Building(tobeBuilt, row, column)
 
                 if len(game.buildings) == 0:
                     game.addBuilding(building)
