@@ -65,17 +65,19 @@ class Map(object):
         self.turn -= 1
         self.coinNo -= 1
 
-    def checkPlacement(self, building):
-        for buildings in self.buildings:
-            hasAdjbuild = False
-            if (buildings.column == building.column):
-                if (building.row == buildings.row + 1) or (building.row + 1 == buildings.row):
+    def checkPlacement(self, build):
+        hasAdjbuild = False
+        for building in self.buildings: 
+            if building == build:
+                hasAdjbuild = False
+            elif (building.column == build.column):
+                if (build.row == building.row + 1) or (build.row + 1 == building.row):
                     hasAdjbuild = True
-            elif (buildings.row == building.row):
-                if (building.column == buildings.column + 1) or (building.column + 1 == buildings.column):
+            elif (building.row == build.row):
+                if (build.column == building.column + 1) or (build.column + 1 == building.column):
                     hasAdjbuild = True
 
-            return hasAdjbuild
+        return hasAdjbuild
 
 
 class Building():
@@ -147,23 +149,41 @@ def run():
 
                 Placement = input("Enter your placement: ")
 
+                #validation for placement
+                while len(Placement) != 2 or Placement[0].isalpha == False or Placement[1].isnumeric == False:
+                    print("Invalid placement. Please try again.")
+                    Placement = input("Enter your placement: ")
+
                 for i in range(20):
                     if Placement[0].upper() == alpha[i]:
                         column = i
 
                 row = int(Placement[1:])-1
 
-                building = Building(tobeBuilt, row, column)
+                build = Building(tobeBuilt, row, column)
 
                 if len(game.buildings) == 0:
-                    game.addBuilding(building)
+                    game.addBuilding(build)
 
-                elif game.checkPlacement(building):
-                    game.addBuilding(building)
-                    continue
+                elif len(game.buildings) != 0:
+                    adjbuilding = game.checkPlacement(build)
+                    while adjbuilding == False:
+                        print("Invalid placement. Please try again.")
+                        Placement = input("Enter your placement: ")
+                        #validation for placement
+                        while len(Placement) != 2 or Placement[0].isalpha == False or Placement[1].isnumeric == False:
+                            print("Invalid placement. Please try again.")
+                            Placement = input("Enter your placement: ")
+                        for i in range(20):
+                            if Placement[0].upper() == alpha[i]:
+                                column = i
 
-                else:
-                    print("try other place.")
+                        row = int(Placement[1:])-1
+
+                        build = Building(tobeBuilt, row, column) 
+                        adjbuilding = game.checkPlacement(build) 
+                    else:
+                        game.addBuilding(build)
                     continue
 
                 continue
